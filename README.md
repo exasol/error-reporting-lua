@@ -12,7 +12,7 @@ Define an error object:
 
 ```lua
 local errobj = exaerror.create("E-IO-13", "Need %d MiB space, but only %d MiB left on device %s.",
-    500.2, 14.8, "/dev/sda4")
+    500.2, 14.8, "/dev/sda4")s
 ```
 
 Use it as string:
@@ -48,6 +48,11 @@ Check out the [user guide](doc/user_guide/user_guide.md) for more details.
 
 * [User Guide](doc/user_guide/user_guide.md)
 * [Change Log](doc/changes/changelog.md)
+
+You can find corresponding libraries for other languages here:
+
+* [Error reporting Java](https://github.com/exasol/error-reporting-java)
+* [Error reporting C#](https://github.com/exasol/error-reporting-csharp)
 
 #### Dependencies
 
