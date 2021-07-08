@@ -13,15 +13,19 @@ jobs:
           sudo luarocks install luacov
           sudo luarocks install luacov-coveralls
           sudo luarocks install LuaUnit
+          sudo apt install shellcheck
       - uses: actions/checkout@v2
       - name: "Set up JDK"
         uses: actions/setup-java@v2
         with:
           java-version: '11'
           distribution: 'adopt'
+      - name: "Validate tools"
+        run: |
+          shellcheck tools/runtests
       - name: "Build"
         run: |
-           luarocks make --local
+          luarocks make --local
       - name: "Unit test"
         run: |
           tools/runtests
