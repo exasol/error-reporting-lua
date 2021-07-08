@@ -1,0 +1,36 @@
+name: "Build and test Lua project"
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Install dependencies"
+        run: |
+          sudo apt-get update
+          sudo apt install luarocks
+          # Build dependencies (will be move to rockspec with LuaRocks 3)
+          sudo luarocks install luacheck
+          sudo luarocks install luacov
+          sudo luarocks install luacov-coveralls
+          sudo luarocks install LuaUnit
+          sudo apt install shellcheck
+      - uses: actions/checkout@v2
+      - name: "Set up JDK"
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+      - name: "Validate tools"
+        run: |
+          shellcheck tools/runtests
+      - name: "Build"
+        run: |
+          luarocks make --local
+      - name: "Unit test"
+        run: |
+          tools/runtests
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@v2
+        with:
+          name: luacov.report.out
+          path: target/luacov-reports/luacov.report.out
