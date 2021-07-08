@@ -46,6 +46,7 @@ Check out the [user guide](doc/user_guide/user_guide.md) for more details.
 
 * [User Guide](doc/user_guide/user_guide.md)
 * [Change Log](doc/changes/changelog.md)
+* [MIT License](LICENSE)
 
 You can find corresponding libraries for other languages here:
 
@@ -54,4 +55,6 @@ You can find corresponding libraries for other languages here:
 
 ### Dependencies
 
-This module needs Lua 5.1 or later to run.
+The only runtime-dependency of this module is Lua 5.1 or later.
+
+See the [dependencies list](dependencies.md) for build and test dependencies and license information.
