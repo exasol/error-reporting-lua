@@ -8,7 +8,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt install luarocks
-          sudo luarock install --only-deps
+          sudo luarocks install --only-deps
       - uses: actions/checkout@v2
       - name: "Set up JDK"
         uses: actions/setup-java@v2
