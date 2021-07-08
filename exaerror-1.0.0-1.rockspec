@@ -30,7 +30,7 @@ dependencies = {"lua >= 5.1, < 5.4"}
 -- current version on Ubuntu, so it is too early for this.
 --
 -- rockspec_format = "3.0"
--- build_dependencies = {"luaunit >= 3.3-1", "mockagne >= 1.0-1 "}
+-- build_dependencies = {"luaunit >= 3.3-1"}
 
 build = {
     type = "builtin",
