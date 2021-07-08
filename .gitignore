@@ -1,4 +1,5 @@
 .project
+.buildpath
 target
 *.md.html
 *.log
