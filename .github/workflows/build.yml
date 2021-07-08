@@ -8,6 +8,10 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt install luarocks
+          # Build dependencies (will be move to rockspec with LuaRocks 3)
+          sudo luarocks install luacheck
+          sudo luarocks install luacov
+          sudo luarocks install luacov-coveralls
       - uses: actions/checkout@v2
       - name: "Set up JDK"
         uses: actions/setup-java@v2
