@@ -15,27 +15,27 @@ _G.unpack = table.unpack or _G.unpack
 -- @return string representation of the error object
 --
 function M:__tostring()
-    local pieces = {}
-    if self.message then
-        table.insert(pieces, self:get_message())
-    end
-    if self.mitigations then
-        for _, mitigation in ipairs(self.mitigations) do
-            table.insert(pieces, mitigation)
-        end
-    end
+    local lines = {}
     if self.code then
-        if #pieces > 0 then
-            table.insert(pieces, 1, self.code .. ":")
+        if self.message then
+            table.insert(lines, self.code .. ": " .. self:get_message())
         else
-            table.insert(pieces, 1, self.code)
+            table.insert(lines, self.code)
+        end
+    else
+        if self.message then
+            table.insert(lines, self:get_message())
+        else
+            table.insert(lines, "<Missing error message. This should not happen. Please contact the software maker.>")
         end
     end
-    if #pieces > 0 then
-        return table.concat(pieces, " ")
-    else
-        return "Undefined error. This should not happen. Please report to the software maker."
+    if (self.mitigations ~= nil) and (#self.mitigations > 0) then
+        table.insert(lines, "\nMitigations:\n")
+        for _, mitigation in ipairs(self.mitigations) do
+            table.insert(lines, "* " .. mitigation)
+        end
     end
+    return table.concat(lines, "\n")
 end
 
 ---

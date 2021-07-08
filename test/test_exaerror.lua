@@ -44,13 +44,19 @@ end
 
 function test_exaerror.test_tostring_metamethod_with_mitigations_only()
     local msg = exaerror:new({mitigations = {"Turn off.", "Turn on again."}})
-    luaunit.assertEquals(tostring(msg), "Turn off. Turn on again.")
+    luaunit.assertEquals(tostring(msg), [[
+<Missing error message. This should not happen. Please contact the software maker.>
+
+Mitigations:
+
+* Turn off.
+* Turn on again.]])
 end
 
 function test_exaerror.test_tostring_metamethod_with_undefined_error()
     local msg = exaerror.create()
-    luaunit.assertEquals(tostring(msg), "Undefined error."
-        .. " This should not happen. Please report to the software maker.")
+    luaunit.assertEquals(tostring(msg),
+        "<Missing error message. This should not happen. Please contact the software maker.>")
 end
 
 function test_exaerror.test_concatenation_metamethod()
@@ -80,8 +86,12 @@ function test_exaerror.test_new()
         }
     )
     luaunit.assertEquals(tostring(msg),
-        "SQL-1234: Metadata query timed out after 500 seconds."
-        .. " Use lock-free metadata queries. Check for recursion.")
+        [[SQL-1234: Metadata query timed out after 500 seconds.
+
+Mitigations:
+
+* Use lock-free metadata queries.
+* Check for recursion.]])
 end
 
 function test_exaerror.test_embedding_in_lua_error()
@@ -106,14 +116,19 @@ end
 
 function test_exaerror.test_throw_error_directly_with_mitigations()
     luaunit.assertErrorMsgContains(
-        "E-IO-13: Need 500.2 MiB space, but only 14.8 MiB left on device /dev/sda4. Try #1. Or #2.",
+        [[E-IO-13: Need 500.2 MiB space, but only 14.8 MiB left on device /dev/sda4.
+
+Mitigations:
+
+* Try #1.
+* Or #2.]],
         function ()
             exaerror.error({
-                    code = "E-IO-13",
-                    message = "Need %.1f MiB space, but only %.1f MiB left on device %s.",
-                    parameters = {500.2, 14.8, "/dev/sda4"},
-                    mitigations = {"Try #1.", "Or #2."}
-                })
+                code = "E-IO-13",
+                message = "Need %.1f MiB space, but only %.1f MiB left on device %s.",
+                parameters = {500.2, 14.8, "/dev/sda4"},
+                mitigations = {"Try #1.", "Or #2."}
+            })
         end
     )
 end
