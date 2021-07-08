@@ -132,7 +132,7 @@ end
 
 ---
 -- Raise the error.
--- 
+--
 -- @raise Lua error for the given error object
 --
 function M:raise()
@@ -146,10 +146,10 @@ end
 -- Or like <code>exaerror:new</code> with a table to preinitialize the error object.
 -- </p>
 -- <p>The first parameter decides on the calling convention. If it is a table, <code>exaerror:new</code is used.
--- 
--- @see M.create  
+--
+-- @see M.create
 -- @see M:new
--- 
+--
 -- @raise Lua error for the given error object
 --
 function M.error(arg1, ...)
@@ -158,7 +158,7 @@ function M.error(arg1, ...)
     else
         M.create(arg1, ...):raise()
     end
-    
+
 end
 
 return M
