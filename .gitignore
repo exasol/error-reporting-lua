@@ -1,3 +1,10 @@
+.project
+target
+*.md.html
+*.log
+*.out
+*.log
+
 # Compiled Lua sources
 luac.out
 
@@ -38,4 +45,3 @@ luac.out
 *.i*86
 *.x86_64
 *.hex
-

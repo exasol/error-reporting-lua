@@ -101,3 +101,16 @@ exaerror.error("E-IO-13", "Need %d MiB space, but only %d MiB left on device %s.
 ```
 
 The main downside of this approach is that you can only specify code, message and parameters. If you need more, you have to use one of the other options.
+
+But since the function also supports the Lua-style object initialization, you can use:
+
+```lua
+exaerror.error({
+    code = "E-IO-13",
+    message = Need %d MiB space, but only %d MiB left on device %s.",
+    parameters = {500.2, 14.8, "/dev/sda4"},
+    mitigations = {"Delete some unused files.", "Move to another device."}
+})
+```
+
+Note that in this case it is important that the one and only parameter to `exaerror.error` is the initialization table.

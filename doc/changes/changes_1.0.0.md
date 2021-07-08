@@ -1,6 +1,6 @@
 # error-reporting-lua 1.0.0, released yyyy-mm-dd
 
-Code name: MVP
+Code name: Minimum Viable Product
 
 ## Summary
 
