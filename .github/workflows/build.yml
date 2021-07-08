@@ -12,6 +12,7 @@ jobs:
           sudo luarocks install luacheck
           sudo luarocks install luacov
           sudo luarocks install luacov-coveralls
+          sudo luarocks install LuaUnit
       - uses: actions/checkout@v2
       - name: "Set up JDK"
         uses: actions/setup-java@v2
