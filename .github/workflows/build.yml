@@ -16,7 +16,7 @@ jobs:
           distribution: 'adopt'
       - name: "Build"
         run: |
-           luarocks make
+           luarocks make --local
       - name: "Unit test"
         run: |
           tools/runtests
