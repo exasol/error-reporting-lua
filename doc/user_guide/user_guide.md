@@ -10,7 +10,7 @@ Additionally the resulting code is made to be parseable, so that you can extract
 
 The core concept of the module is an error object defined in `exaerror`. This is a Lua table that has a couple of predefined attributes:
 
-* `code`: A machine readable error code
+* `code`: A machine readable error identifier
 * `message`: description of the error
 * `parameters`: list of parameter values used to replace placeholders in the description
 * `mitigations`: list of things users can do to fix the error

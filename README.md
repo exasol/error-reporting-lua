@@ -1,4 +1,4 @@
-# error-reporting-lua
+# Error Reporting Lua
 
 This project contains the source code for the `exaerror` Lua module. This modules lets you define errors with a uniform set of attributes. The created error objects can be used in places where strings are expected like in string concatenation.
 
@@ -17,13 +17,13 @@ local errobj = exaerror.create("E-IO-13", "Need %d MiB space, but only %d MiB le
 
 Use it as string:
 
-```
+```lua
 print(errobj)
 ```
 
 Raise a corresponding Lua error
 
-```
+```lua
 errobj.raise()
 ```
 
@@ -38,13 +38,11 @@ Check out the [user guide](doc/user_guide/user_guide.md) for more details.
 
 ## Features
 
-1. Define error objects with error code, description, placeholders, parameters and mitigations
+1. Define error objects with error code, message, placeholders, parameters and mitigations
 1. Use error objects where strings are expected
 1. Raise errors from error objects
 
-## Table of Contents
-
-### Information for Users
+## Information for Users
 
 * [User Guide](doc/user_guide/user_guide.md)
 * [Change Log](doc/changes/changelog.md)
@@ -54,6 +52,6 @@ You can find corresponding libraries for other languages here:
 * [Error reporting Java](https://github.com/exasol/error-reporting-java)
 * [Error reporting C#](https://github.com/exasol/error-reporting-csharp)
 
-#### Dependencies
+### Dependencies
 
 This module needs Lua 5.1 or later to run.

@@ -8,11 +8,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt install luarocks
-          sudo luarocks install luacheck
-          sudo luarocks install luacov
-          sudo luarocks install luacov-coveralls
-          sudo luarocks install LuaUnit
-          sudo luarocks install Mockagne
+          sudo luarock install --only-deps
       - uses: actions/checkout@v2
       - name: "Set up JDK"
         uses: actions/setup-java@v2
