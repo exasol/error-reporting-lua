@@ -8,14 +8,15 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt install luarocks
-          ls
-          sudo luarocks install --only-deps exaerror-1.0.0-1.rockspec
       - uses: actions/checkout@v2
       - name: "Set up JDK"
         uses: actions/setup-java@v2
         with:
           java-version: '11'
           distribution: 'adopt'
+      - name: "Build"
+        run: |
+           luarocks make
       - name: "Unit test"
         run: |
           tools/runtests
