@@ -1,9 +1,9 @@
-package = "remotelog"
-version = "1.0.1-1"
+package = "exaerror"
+version = "1.0.0-1"
 
 source = {
-    url = 'git://github.com/exasol/remotelog-lua',
-    tag = "1.0.1"
+    url = 'git://github.com/exasol/error-reporting-lua',
+    tag = "1.0.0"
 }
 
 description = {
