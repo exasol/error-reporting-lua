@@ -97,6 +97,18 @@ function M:get_code()
     return self.code
 end
 
+local function extract_values(parameters)
+    local values = {}
+    for _, parameter in ipairs(parameters) do
+        if type(parameter) == "table" then
+            table.insert(values, parameter.value)
+        else
+            table.insert(values, parameter)
+        end
+    end
+    return unpack(values)
+end
+
 ---
 -- Get the error message.
 -- <p>
@@ -111,7 +123,7 @@ end
 --
 function M:get_message()
     if self.message and self.parameters then
-        return string.format(self.message, unpack(self.parameters))
+        return string.format(self.message, extract_values(self.parameters))
     else
         return self:get_raw_message()
     end
@@ -119,6 +131,13 @@ end
 
 function M:get_raw_message()
     return self.message or ""
+end
+
+---
+-- Get parameter definitions
+--
+function M:get_parameters()
+    return self.parameters
 end
 
 ---

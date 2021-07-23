@@ -18,8 +18,14 @@ end
 
 function test_exaerror.test_get_interpolated_message()
     local tests = {
-        {message = "Foo '%s'", parameters = {"the a parameter"}, expected = "Foo 'the a parameter'"},
-        {message = 'The %s is "%d".', parameters = {"answer", 42}, expected = 'The answer is "42".'}
+        {
+            message = "Foo {{string}}",
+            parameters = {"the a parameter"}, expected = "Foo 'the a parameter'"
+        },
+        {
+            message = 'The {{string}} is "{{number}}".',
+            parameters = {string = "answer", nubmer = 42}, expected = "The 'answer' is \"42\"."
+        }
     }
     for _, test in ipairs(tests) do
         local msg = exaerror.create("W-BARZOO-2", test.message, unpack(test.parameters))
@@ -92,6 +98,26 @@ Mitigations:
 
 * Use lock-free metadata queries.
 * Check for recursion.]])
+end
+
+function test_exaerror.test_new_with_parameter_descriptions()
+    local msg = exaerror:new({
+        code = "SQL-2777",
+        message = "Connection refused by host %s" ,
+        parameters = {{parameter = "host", description = "Host or IP address", value = "jupiter.example.com"}}
+    })
+    luaunit.assertEquals(tostring(msg), "SQL-2777: Connection refused by host jupiter.example.com")
+    luaunit.assertEquals(msg:get_parameters(),
+        {{parameter = "host", description = "Host or IP address", value = "jupiter.example.com"}})
+end
+
+function test_exaerror.test_create_with_parameter_descriptions()
+    local msg = exaerror.create("SQL-2777", "Connection refused by host %s",
+        {parameter = "host", description = "Host or IP address", value = "jupiter.example.com"}
+    )
+    luaunit.assertEquals(tostring(msg), "SQL-2777: Connection refused by host jupiter.example.com")
+    luaunit.assertEquals(msg:get_parameters(),
+        {{parameter = "host", description = "Host or IP address", value = "jupiter.example.com"}})
 end
 
 function test_exaerror.test_embedding_in_lua_error()

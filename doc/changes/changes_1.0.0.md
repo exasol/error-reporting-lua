@@ -9,3 +9,4 @@ Release 1.0.0 contains of the `exaerror` Lua module that allows defining uniform
 ## Features
 
 * #1: Basic error object and builder
+* #4: Parameter descriptions
