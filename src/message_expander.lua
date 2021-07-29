@@ -1,4 +1,4 @@
-M = {}
+local M = {}
 
 ---
 -- Create a new instance of a message expander.
@@ -7,22 +7,22 @@ M = {}
 --        (optional) a new object is created if you don't provide one
 --
 -- @return created object
--- 
+--
 function M:new(object)
     object = object or {}
     self.__index = self
     setmetatable(object, self)
     self.tokens_ = {}
-    self.last_paramter_ = {characters = {}, quote = true}
+    self.last_parameter_ = {characters = {}, quote = true}
     return object
 end
 
 ---
 -- Create new instance of a message expander.
--- 
+--
 -- @parameter message to be expanded
 -- @parameter ... values used to replace the placeholders
--- 
+--
 function M.create(message, ...)
     return M:new({
         message = message,
@@ -39,9 +39,9 @@ end
 -- <p>
 -- Note that if no parameter values are supplied, the message will be returned as is, without any replacements.
 -- </p>
--- 
+--
 -- @return expanded message
--- 
+--
 function M:expand()
     if (self.parameters == nil) or (not next(self.parameters)) then
         return self.message
@@ -60,9 +60,9 @@ function M:run_()
 end
 
 function M:transit_(token)
-    for _, transition in ipairs(M.transitions) do
+    for _, transition in ipairs(M.transitions_) do
         local from_state = transition[1]
-        local guard = transition[2] 
+        local guard = transition[2]
         if(from_state == self.state and guard(token)) then
             local action = transition[3]
             action(self, token)
@@ -89,7 +89,7 @@ local function is_pipe(token)
     return token == "|"
 end
 
-local function is_u (token, other)
+local function is_u (token)
     return token == "u"
 end
 
@@ -107,26 +107,39 @@ local function add_open(self, token)
 end
 
 local function add_parameter_name(self, token)
-    table.insert(self.last_paramter_.characters, token)
+    table.insert(self.last_parameter_.characters, token)
 end
 
 local function set_unquoted(self)
-    self.last_paramter_.quote = false
+    self.last_parameter_.quote = false
+end
+
+local function unwrap_parameter_value(parameter)
+    if parameter == nil then
+        return "missing value"
+    else
+        local type = type(parameter)
+        if (type == "table") then
+            return parameter.value
+        else
+            return parameter
+        end
+    end
 end
 
 local function replace_parameter(self)
-    local parameter_name = table.concat(self.last_paramter_.characters)
-    local value = self.parameters[parameter_name] or "missing value"
+    local parameter_name = table.concat(self.last_parameter_.characters)
+    local value = unwrap_parameter_value(self.parameters[parameter_name])
     local type = type(value)
-    if (type == "string") and (self.last_paramter_.quote) then
+    if (type == "string") and (self.last_parameter_.quote) then
         table.insert(self.tokens_, "'")
         table.insert(self.tokens_, value)
         table.insert(self.tokens_, "'")
     else
         table.insert(self.tokens_, value)
     end
-    self.last_paramter_.characters = {}
-    self.last_paramter_.quote = true
+    self.last_parameter_.characters = {}
+    self.last_parameter_.quote = true
 end
 
 local function replace_and_add(self, token)
@@ -136,7 +149,7 @@ end
 
 local function do_nothing() end
 
-M.transitions = {
+M.transitions_ = {
     {"TEXT"              , is_not_bracket    , add_token         , "TEXT"              },
     {"TEXT"              , is_opening_bracket, do_nothing        , "OPEN_1"            },
     {"OPEN_1"            , is_opening_bracket, do_nothing        , "PARAMETER"         },

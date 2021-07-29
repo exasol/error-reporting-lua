@@ -2,6 +2,8 @@ local M = {
     VERSION = "1.0.0",
 }
 
+local msgexpander = require("message_expander")
+
 -- Lua 5.1 backward compatibility
 _G.unpack = table.unpack or _G.unpack
 
@@ -67,12 +69,12 @@ end
 --
 -- @param code error code
 -- @param message message body
--- @param ... parameters to replace the placeholders in the message (if any)
+-- @param parameters parameters to replace the placeholders in the message (if any)
 --
 -- @return created object
 --
-function M.create(code, message, ...)
-    return M:new({code = code, message = message, parameters = {...}, mitigations = {}})
+function M.create(code, message, parameters)
+    return M:new({code = code, message = message, parameters = parameters, mitigations = {}})
 end
 
 ---
@@ -97,18 +99,6 @@ function M:get_code()
     return self.code
 end
 
-local function extract_values(parameters)
-    local values = {}
-    for _, parameter in ipairs(parameters) do
-        if type(parameter) == "table" then
-            table.insert(values, parameter.value)
-        else
-            table.insert(values, parameter)
-        end
-    end
-    return unpack(values)
-end
-
 ---
 -- Get the error message.
 -- <p>
@@ -122,11 +112,7 @@ end
 -- @return error message
 --
 function M:get_message()
-    if self.message and self.parameters then
-        return string.format(self.message, extract_values(self.parameters))
-    else
-        return self:get_raw_message()
-    end
+    return msgexpander:new({message = self.message, parameters = self.parameters}):expand()
 end
 
 function M:get_raw_message()
@@ -134,10 +120,21 @@ function M:get_raw_message()
 end
 
 ---
--- Get parameter definitions
+-- Get parameter definitions.
 --
 function M:get_parameters()
     return self.parameters
+end
+
+---
+-- Get the description of a parameter.
+--
+-- @parameter parameter_name name of the parameter
+--
+-- @return parameter description or <code>nil</code> if the description does not exist
+--
+function M:get_parameter_description(parameter_name)
+    return self.parameters[parameter_name].description or "<missing parameter description>"
 end
 
 ---
