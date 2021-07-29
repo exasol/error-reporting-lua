@@ -1,3 +1,8 @@
+---
+-- This module provides a uniform way to define errors in a Lua application.
+-- 
+-- @module M 
+--
 local M = {
     VERSION = "1.0.0",
 }
@@ -131,7 +136,7 @@ end
 --
 -- @parameter parameter_name name of the parameter
 --
--- @return parameter description or <code>nil</code> if the description does not exist
+-- @return parameter description or the string "<code><missing parameter description></code>"
 --
 function M:get_parameter_description(parameter_name)
     return self.parameters[parameter_name].description or "<missing parameter description>"

@@ -30,8 +30,12 @@ function test_message_expander.test_expand_with_only_one_closing_bracket()
     assertMessageWithParametersRendersTo("1 {{n} 3", {n = 2}, "1 2 3")
 end
 
-function test_message_expander.test_expand_with_uq_switch()
+function test_message_expander.test_expand_with_u_plus_q_switch()
     assertMessageWithParametersRendersTo("1 {{string|uq}} 3", {string = "s"}, "1 s 3")
+end
+
+function test_message_expander.test_expand_with_u_switch()
+    assertMessageWithParametersRendersTo("1 {{string|u}} 3", {string = "s"}, "1 s 3")
 end
 
 function test_message_expander.test_expand_with_parameter_description()

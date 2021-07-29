@@ -1,4 +1,15 @@
+---
+-- This module provides a parser for messages with named parameters and can expand the message using the parameter
+-- values.
+-- 
+-- @module M 
+--
 local M = {}
+
+local FROM_STATE_INDEX = 1
+local GUARD_INDEX = 2
+local ACTION_INDEX = 3
+local TO_STATE_INDEX = 4
 
 ---
 -- Create a new instance of a message expander.
@@ -61,12 +72,12 @@ end
 
 function M:transit_(token)
     for _, transition in ipairs(M.transitions_) do
-        local from_state = transition[1]
-        local guard = transition[2]
+        local from_state = transition[FROM_STATE_INDEX]
+        local guard = transition[GUARD_INDEX]
         if(from_state == self.state and guard(token)) then
-            local action = transition[3]
+            local action = transition[ACTION_INDEX]
             action(self, token)
-            local to_state = transition[4]
+            local to_state = transition[TO_STATE_INDEX]
             return to_state
         end
     end
@@ -101,7 +112,7 @@ local function add_token(self, token)
     table.insert(self.tokens_, token)
 end
 
-local function add_open(self, token)
+local function add_open_plus_token(self, token)
     table.insert(self.tokens_, "{")
     table.insert(self.tokens_, token)
 end
@@ -150,18 +161,18 @@ end
 local function do_nothing() end
 
 M.transitions_ = {
-    {"TEXT"              , is_not_bracket    , add_token         , "TEXT"              },
-    {"TEXT"              , is_opening_bracket, do_nothing        , "OPEN_1"            },
-    {"OPEN_1"            , is_opening_bracket, do_nothing        , "PARAMETER"         },
-    {"OPEN_1"            , is_any            , add_open          , "TEXT"              },
-    {"PARAMETER"         , is_closing_bracket, do_nothing        , "CLOSE_1"           },
-    {"PARAMETER"         , is_pipe           , do_nothing        , "SWITCH"            },
-    {"PARAMETER"         , is_any            , add_parameter_name, "PARAMETER"         },
-    {"SWITCH"            , is_closing_bracket, do_nothing        , "CLOSE_1"           },
-    {"SWITCH"            , is_u              , set_unquoted      , "SWITCH"            },
-    {"SWITCH"            , is_any            , do_nothing        , "SWITCH"            },
-    {"CLOSE_1"           , is_closing_bracket, replace_parameter , "TEXT"              },
-    {"CLOSE_1"           , is_any            , replace_and_add   , "TEXT"              }
+    {"TEXT"     , is_not_bracket    , add_token          , "TEXT"     },
+    {"TEXT"     , is_opening_bracket, do_nothing         , "OPEN_1"   },
+    {"OPEN_1"   , is_opening_bracket, do_nothing         , "PARAMETER"},
+    {"OPEN_1"   , is_any            , add_open_plus_token, "TEXT"     },
+    {"PARAMETER", is_closing_bracket, do_nothing         , "CLOSE_1"  },
+    {"PARAMETER", is_pipe           , do_nothing         , "SWITCH"   },
+    {"PARAMETER", is_any            , add_parameter_name , "PARAMETER"},
+    {"SWITCH"   , is_closing_bracket, do_nothing         , "CLOSE_1"  },
+    {"SWITCH"   , is_u              , set_unquoted       , "SWITCH"   },
+    {"SWITCH"   , is_any            , do_nothing         , "SWITCH"   },
+    {"CLOSE_1"  , is_closing_bracket, replace_parameter  , "TEXT"     },
+    {"CLOSE_1"  , is_any            , replace_and_add    , "TEXT"     }
 }
 
 return M
