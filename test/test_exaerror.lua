@@ -16,15 +16,38 @@ function test_exaerror.test_get_message()
     luaunit.assertEquals(msg:get_message(), "This is a message.")
 end
 
-function test_exaerror.test_get_interpolated_message()
-    local tests = {
-        {message = "Foo '%s'", parameters = {"the a parameter"}, expected = "Foo 'the a parameter'"},
-        {message = 'The %s is "%d".', parameters = {"answer", 42}, expected = 'The answer is "42".'}
-    }
-    for _, test in ipairs(tests) do
-        local msg = exaerror.create("W-BARZOO-2", test.message, unpack(test.parameters))
-        luaunit.assertEquals(msg:get_message(), test.expected)
-    end
+function test_exaerror.test_get_interpolated_message_with_single_string()
+    local msg = exaerror.create("W-BARZOO-2", "Foo {{string}}", {string = "a text"})
+    luaunit.assertEquals(msg:get_message(), "Foo 'a text'")
+end
+
+function test_exaerror.test_get_interpolated_message_with_string_and_number()
+    local msg = exaerror.create("W-BARZOO-2", 'The {{string}} is "{{number}}".', {string = "answer", number = 42})
+    luaunit.assertEquals(msg:get_message(), "The 'answer' is \"42\".")
+end
+
+function test_exaerror.test_get_parameter_description()
+    local msg = exaerror:new({
+        code = "E-A-1",
+        message = "A, {{b}}, {{c}}",
+        parameters = {
+            b = {value = "B", description = "the B"},
+            c = {value = "C", description = "the C"}
+        }
+    })
+    luaunit.assertEquals(msg:get_parameter_description("c"), "the C")
+end
+
+function test_exaerror.test_get_missing_parameter_description()
+    local msg = exaerror:new({
+        code = "E-A-1",
+        message = "A, {{b}}, {{c}}",
+        parameters = {
+            b = {value = "B"},
+            c = {value = "C", description = "the C"}
+        }
+    })
+    luaunit.assertEquals(msg:get_parameter_description("b"), "<missing parameter description>")
 end
 
 function test_exaerror.test_get_mitigations()
@@ -77,8 +100,8 @@ function test_exaerror.test_new()
     local msg = exaerror:new(
         {
             code = "SQL-1234",
-            message = "Metadata query timed out after %d seconds.",
-            parameters = {500},
+            message = "Metadata query timed out after {{timeout}} seconds.",
+            parameters = {timeout = 500},
             mitigations = {
                 "Use lock-free metadata queries.",
                 "Check for recursion."
@@ -94,29 +117,48 @@ Mitigations:
 * Check for recursion.]])
 end
 
+function test_exaerror.test_new_with_parameter_descriptions()
+    local msg = exaerror:new({
+        code = "SQL-2777",
+        message = "Connection refused by host {{host}}" ,
+        parameters = {host = {description = "Host or IP address", value = "jupiter.example.com"}}
+    })
+    luaunit.assertEquals(tostring(msg), "SQL-2777: Connection refused by host 'jupiter.example.com'")
+    luaunit.assertEquals(msg:get_parameters(),
+        {host = {description = "Host or IP address", value = "jupiter.example.com"}})
+end
+
+function test_exaerror.test_create_with_parameter_descriptions()
+    local msg = exaerror.create("SQL-2777", "Connection refused by host {{host}}",
+        {host = {description = "Host or IP address", value = "jupiter.example.com"}}
+    )
+    luaunit.assertEquals(tostring(msg), "SQL-2777: Connection refused by host 'jupiter.example.com'")
+    luaunit.assertEquals(msg:get_parameters(),
+        {host = {description = "Host or IP address", value = "jupiter.example.com"}})
+end
+
 function test_exaerror.test_embedding_in_lua_error()
     luaunit.assertErrorMsgContains(
-        "E-IO-13: Need 500.2 MiB space, but only 14.8 MiB left on device /dev/sda4.",
+        "E-IO-13: Need 500.2 MiB space, but only 14.8 MiB.",
         function ()
-            error(exaerror.create("E-IO-13", "Need %.1f MiB space, but only %.1f MiB left on device %s.",
-                500.2, 14.8, "/dev/sda4"))
+            error(exaerror.create("E-IO-13", "Need {{needed}} MiB space, but only {{remaining}} MiB.",
+                {needed = 500.2, remaining = 14.8}))
         end
     )
 end
 
 function test_exaerror.test_throw_error_directly()
     luaunit.assertErrorMsgContains(
-        "E-IO-13: Need 500.2 MiB space, but only 14.8 MiB left on device /dev/sda4.",
+        "I-IO-1: 7 down, 4 to go.",
         function ()
-            exaerror.error("E-IO-13", "Need %.1f MiB space, but only %.1f MiB left on device %s.",
-                500.2, 14.8, "/dev/sda4")
+            exaerror.error("I-IO-1", "{{a}} down, {{b}} to go.", {a = 7, b = 4})
         end
     )
 end
 
 function test_exaerror.test_throw_error_directly_with_mitigations()
     luaunit.assertErrorMsgContains(
-        [[E-IO-13: Need 500.2 MiB space, but only 14.8 MiB left on device /dev/sda4.
+        [[E-IO-13: Need 500.2 MiB space, but only 14.8 MiB left on device '/dev/sda4'.
 
 Mitigations:
 
@@ -125,8 +167,8 @@ Mitigations:
         function ()
             exaerror.error({
                 code = "E-IO-13",
-                message = "Need %.1f MiB space, but only %.1f MiB left on device %s.",
-                parameters = {500.2, 14.8, "/dev/sda4"},
+                message = "Need {{needed}} MiB space, but only {{remaining}} MiB left on device {{device}}.",
+                parameters = {needed = 500.2, remaining = 14.8, device = "/dev/sda4"},
                 mitigations = {"Try #1.", "Or #2."}
             })
         end

@@ -12,7 +12,7 @@ The core concept of the module is an error object defined in `exaerror`. This is
 
 * `code`: A machine readable error identifier
 * `message`: description of the error
-* `parameters`: list of parameter values used to replace placeholders in the description
+* `parameters`: table of parameters used to replace placeholders in the description
 * `mitigations`: list of things users can do to fix the error
 
 ## Optional Attributes and Fault Tolerance
@@ -38,8 +38,8 @@ An established way in Lua to initialize objects is to provide a table with the `
 ```lua
 local errorobj = exaerror:new({
     code = "E-IO-13",
-    message = Need %d MiB space, but only %d MiB left on device %s.",
-    parameters = {500.2, 14.8, "/dev/sda4"},
+    message = "Need {{needed}} MiB space, but only {{remaining}} MiB left on device {{device}}.",
+    parameters = {needed = {value = 500.2}, remaining = {value = 14.8}, device = {value = "/dev/sda4"}},
     mitigations = {"Delete some unused files.", "Move to another device."}
 })
 ```
@@ -50,8 +50,10 @@ The predefined table keys are
 
 * `code`: machine-readable unique code (string)
 * `message`: Error description either as static string or as [format with placeholders](https://www.lua.org/manual/5.1/manual.html#pdf-string.format) (string)
-* `parameters`: parameter values that will be used to replace placeholders in the description (array of values)
+* `parameters`: table of parameter values be used to replace placeholders in the description
 * `mitigations`: list of hints on how to fix the error (array of strings)
+
+The `parameters` must have a field `value`. Optionally you can explain what a parameters means using the field `description`.
 
 ### Error Object Builder
 
@@ -60,7 +62,7 @@ Alternatively you can use a builder provided with `exaerror` to construct an err
 Strictly speaking it is a combination between the builder pattern and regular setters since Lua 5.1 does not have immutable tables.
 
 ```lua
-local errobj = exaerror.create("E-IO-13", "Need %d MiB space, but only %d MiB left on device %s.",
+local errobj = exaerror.create("E-IO-13", "Need {{needed}} MiB space, but only {{remaining}} MiB left on device {{device}}.",
         500.2, 14.8, "/dev/sda4")
     :add_mitigations("Delete some unused files.", "Move to another device.")
 ```
