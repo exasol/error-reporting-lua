@@ -1,8 +1,8 @@
 ---
 -- This module provides a parser for messages with named parameters and can expand the message using the parameter
 -- values.
--- 
--- @module M 
+--
+-- @module M
 --
 local M = {}
 
