@@ -1,7 +1,7 @@
 ---
 -- This module provides a uniform way to define errors in a Lua application.
--- 
--- @module M 
+--
+-- @module M
 --
 local M = {
     VERSION = "1.0.0",
