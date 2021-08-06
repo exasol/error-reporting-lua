@@ -51,7 +51,7 @@ The predefined table keys are
 * `code`: machine-readable unique code (string)
 * `message`: Error description either as static string or containing placeholders in double curly brackets.
 * `parameters`: table of parameter values be used to replace placeholders in the message and mitigations
-* `mitigations`: list of hints on how to fix the error (array of strings)
+* `mitigations`: list of hints on how to fix the error (array of strings), optionally containing placeholders
 
 The `parameters` must have a field `value`. Optionally you can explain what a parameters means using the field `description`.
 
