@@ -8,9 +8,9 @@ source = {
 
 description = {
     summary = "Uniform error objects for Lua",
-    detailed = [["exaerror" ets you define errors with a uniform set of attributes. The created error objects can be used in places where strings are expected like in string concatenation.
+    detailed = [["exaerror" lets you define errors with a uniform set of attributes. The created error objects can be used in places where strings are expected like in string concatenation.
 
-    And you can conveniently rais a Lua `error` from them.
+    And you can conveniently raise a Lua `error` from them.
 
     Additionally the resulting code is made to be parseable, so that you can extract an error catalog from the code.
 
