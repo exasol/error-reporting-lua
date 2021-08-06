@@ -1,4 +1,4 @@
-# error-reporting-lua 1.0.0, released yyyy-mm-dd
+# error-reporting-lua 1.0.0, released 2021-08-06
 
 Code name: Minimum Viable Product
 
