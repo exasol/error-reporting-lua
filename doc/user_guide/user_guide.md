@@ -80,7 +80,7 @@ local project_issue_url = "www.example.org/issues"
 -- ...
 local msg = exaerror:new({
     message = "Unexpected error.",
-    mitigations = {"Please create an error report under {{url}}"},
+    mitigations = {"Please create an error report under {{url}}."},
     parameters = {url = project_issue_url}
 })
 ```
@@ -90,7 +90,7 @@ If you want to add a description to your parameters, you need to invest just a l
 ```lua
 local msg = exaerror:new({
     message = "Unexpected error.",
-    mitigations = {"Please create an error report under {{url}}"},
+    mitigations = {"Please create an error report under {{url}}."},
     parameters = {url = {value = project_issue_url, description = "URL under which you can raise issue tickets"}}
 })
 ```
