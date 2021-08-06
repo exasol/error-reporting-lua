@@ -49,9 +49,9 @@ As you can see in the example above, you can simply pass the error attributes as
 The predefined table keys are
 
 * `code`: machine-readable unique code (string)
-* `message`: Error description either as static string or as [format with placeholders](https://www.lua.org/manual/5.1/manual.html#pdf-string.format) (string)
-* `parameters`: table of parameter values be used to replace placeholders in the description
-* `mitigations`: list of hints on how to fix the error (array of strings)
+* `message`: Error description either as static string or containing placeholders in double curly brackets.
+* `parameters`: table of parameter values be used to replace placeholders in the message and mitigations
+* `mitigations`: list of hints on how to fix the error (array of strings), optionally containing placeholders
 
 The `parameters` must have a field `value`. Optionally you can explain what a parameters means using the field `description`.
 
@@ -63,11 +63,40 @@ Strictly speaking it is a combination between the builder pattern and regular se
 
 ```lua
 local errobj = exaerror.create("E-IO-13", "Need {{needed}} MiB space, but only {{remaining}} MiB left on device {{device}}.",
-        500.2, 14.8, "/dev/sda4")
+        {needed = 500.2, remaining = 14.8, device ="/dev/sda4"})
     :add_mitigations("Delete some unused files.", "Move to another device.")
 ```
 
 Mind the colon before `add_mitigations` because that method needs a `self` pointer.
+
+#### Using Parameters
+
+As you can see from the examples the named parameters are placeholders that need to be enclosed in double curly brackets. You define the values in a table where the parameter names are the keys.
+
+You can use the same parameter replacement mechanism in mitigations that you saw earlier used in the message part.
+
+```lua
+local project_issue_url = "www.example.org/issues"
+-- ...
+local msg = exaerror:new({
+    message = "Unexpected error.",
+    mitigations = {"Please create an error report under {{url}}."},
+    parameters = {url = project_issue_url}
+})
+```
+
+If you want to add a description to your parameters, you need to invest just a little bit more effort:
+
+```lua
+local msg = exaerror:new({
+    message = "Unexpected error.",
+    mitigations = {"Please create an error report under {{url}}."},
+    parameters = {url = {value = project_issue_url, description = "URL under which you can raise issue tickets"}}
+})
+```
+
+That means if you provide anything that is not a table as a parameter definition, that will be the value which replaces the placeholder.
+If you provide a table, the `value` must be named explicitly, but that also gives you the opportunity to add a `description`.
 
 # Raising Errors
 

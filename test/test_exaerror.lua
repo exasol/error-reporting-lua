@@ -82,6 +82,20 @@ function test_exaerror.test_tostring_metamethod_with_undefined_error()
         "<Missing error message. This should not happen. Please contact the software maker.>")
 end
 
+function test_exaerror.test_tostring_metamethod_with_mitiagation_parameters()
+    local msg = exaerror:new({
+        message = "Unexpected error.",
+        mitigations = {"Please create an error report under {{url}}"},
+        parameters = {url = "www.example.org/issues?create"}
+    })
+    luaunit.assertEquals(tostring(msg),
+        [[Unexpected error.
+
+Mitigations:
+
+* Please create an error report under 'www.example.org/issues?create']])
+end
+
 function test_exaerror.test_concatenation_metamethod()
     local err = exaerror.create("I-CONCAT-1")
     local tests = {

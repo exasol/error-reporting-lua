@@ -11,8 +11,8 @@ Additionally the resulting code is made to be parseable, so that you can extract
 Define an error object:
 
 ```lua
-local errobj = exaerror.create("E-IO-13", "Need %d MiB space, but only %d MiB left on device %s.",
-    500.2, 14.8, "/dev/sda4")s
+local errobj = exaerror.create("E-IO-13", "Need {{needed}} MiB space, but only {{remaining}} MiB left on device {{device}}.",
+    {needed = 500.2, remaining = 14.8, device = "/dev/sda4"})
 ```
 
 Use it as string:
@@ -30,8 +30,8 @@ errobj.raise()
 Or shorter:
 
 ```lua
-exaerror.error("E-IO-13", "Need %d MiB space, but only %d MiB left on device %s.",
-     500.2, 14.8, "/dev/sda4")
+exaerror.error("E-IO-13", "Need {{needed}} MiB space, but only {{remaining}} MiB left on device {{device}}.",
+    {needed = 500.2, remaining = 14.8, device = "/dev/sda4"})
 ```
 
 Check out the [user guide](doc/user_guide/user_guide.md) for more details.

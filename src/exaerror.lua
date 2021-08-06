@@ -12,6 +12,10 @@ local msgexpander = require("message_expander")
 -- Lua 5.1 backward compatibility
 _G.unpack = table.unpack or _G.unpack
 
+local function expand(message, parameters)
+    return msgexpander:new({message =message, parameters = parameters}):expand()
+end
+
 ---
 -- Convert error to a string representation.
 -- <p>
@@ -39,7 +43,7 @@ function M:__tostring()
     if (self.mitigations ~= nil) and (#self.mitigations > 0) then
         table.insert(lines, "\nMitigations:\n")
         for _, mitigation in ipairs(self.mitigations) do
-            table.insert(lines, "* " .. mitigation)
+            table.insert(lines, "* " .. expand(mitigation, self.parameters))
         end
     end
     return table.concat(lines, "\n")
@@ -117,7 +121,7 @@ end
 -- @return error message
 --
 function M:get_message()
-    return msgexpander:new({message = self.message, parameters = self.parameters}):expand()
+    return expand(self.message, self.parameters)
 end
 
 function M:get_raw_message()
