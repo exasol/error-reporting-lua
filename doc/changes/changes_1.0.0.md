@@ -1,11 +1,17 @@
-# error-reporting-lua 1.0.1, released 2021-10-06
+# error-reporting-lua 1.0.0, released 2021-08-06
 
-Code name: Fixed rockspec
+Code name: Minimum Viable Product
 
 ## Summary
 
-Release 1.0.1 of `error-reporting-lua` fixes a mistake in the rockspec, the manifest that decides what goes into the delivery package. The mistake kept the actual Lua module from being packaged.
+Release 1.0.0 contains of the `exaerror` Lua module that allows defining uniform error objects and raising them as Lua `error`.
+
+An error object can contain an error code, a description and one or more mitigation hints. Description and mitigations can contain parameters that get replaced at runtime.
+
+Error objects can be used in places where Lua expects strings (e.g. in concatenations).
 
 ## Features
 
-* #7: Fixed rockspec
+* #1: Basic error object and builder
+* #3: Placeholders in mitigations
+* #4: Parameter descriptions
