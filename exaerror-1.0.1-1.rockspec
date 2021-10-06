@@ -1,9 +1,9 @@
 package = "exaerror"
-version = "1.0.0-1"
+version = "1.0.1-1"
 
 source = {
     url = 'git://github.com/exasol/error-reporting-lua',
-    tag = "1.0.0"
+    tag = "1.0.1"
 }
 
 description = {
@@ -12,7 +12,7 @@ description = {
 
     And you can conveniently raise a Lua `error` from them.
 
-    Additionally the resulting code is made to be parseable, so that you can extract an error catalog from the code.
+    Additionally the resulting code is made to be parsable, so that you can extract an error catalog from the code.
 
     You can find the  user guide in the projects GitHub repository.
     
@@ -34,6 +34,9 @@ dependencies = {"lua >= 5.1, < 5.4"}
 
 build = {
     type = "builtin",
-    modules = {remotelog = "src/exaerror.lua"},
+    modules = {
+        exaerror = "src/exaerror.lua",
+        message_expander = "src/message_expander.lua"
+    },
     copy_directories = { "doc", "test" }
 }
