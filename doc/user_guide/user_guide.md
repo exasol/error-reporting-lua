@@ -128,14 +128,16 @@ Error objects are only useful if you can present them to the end users. `exaerro
 The most basic variant is using the object as parameter to Lua's `error` function:
 
 ```lua
-error(errobj)
+error(tostring(errobj))
 ```
 
-Note that you don't have to use Lua's [`tostring`](https://www.lua.org/manual/5.1/manual.html#pdf-tostring) conversion function explicitly since `exaerror` defines the `__tostring` metamethod.
+Note that while it is in some cases possible to skip the [`tostring`](https://www.lua.org/manual/5.1/manual.html#pdf-tostring) conversion function since `exaerror` defines the `__tostring` and `__concat` metamethods, we advise against that.
+
+This will only work in cases where there is an implicit or explicit call to `tostring` or `concat` in the subsequent code. But that is not guaranteed and an implementation detail you should not rely on. If you for example want to catch the error with [`pcall`](https://www.lua.org/manual/5.1/manual.html#pdf-pcall) and then use `gmatch` against the supposed error message, that attempt will fail since `gmatch` expects a string as parameter, but gets a table instead in this case.
 
 ## Object-oriented Error Raising
 
-Another option is to call the `raise` method of the error object.
+Another more elegant variant is to call the `raise` method of the error object.
 
 ```lua
 errorobj:raise()
