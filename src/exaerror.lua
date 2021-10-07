@@ -178,7 +178,7 @@ end
 -- @raise Lua error for the given error object
 --
 function M:raise()
-    error(self)
+    error(tostring(self))
 end
 
 ---
