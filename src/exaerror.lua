@@ -4,7 +4,7 @@
 -- @module M
 --
 local M = {
-    VERSION = "1.0.1",
+    VERSION = "1.1.0",
 }
 
 local msgexpander = require("message_expander")
@@ -92,12 +92,29 @@ end
 -- @param ... one or more mitigation descriptions
 --
 -- @return error message object
+--
 function M:add_mitigations(...)
     for _, mitigation in ipairs({...}) do
         table.insert(self.mitigations, mitigation)
     end
     return self
 end
+
+---
+-- Add issue ticket mitigation
+-- <p>
+-- This is a special kind of mitigation which you should use in case of internal software errors that should not happen.
+-- For example when a path in the code is reached that should be unreachable if the code is correct.
+-- </p>
+--
+-- @return error message object
+--
+function M:add_ticket_mitigation()
+    table.insert(self.mitigations,
+        "This is an internal software error. Please report it via the project's ticket tracker.")
+    return self
+end
+
 
 ---
 -- Get the error code.
