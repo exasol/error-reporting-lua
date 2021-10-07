@@ -98,6 +98,27 @@ local msg = exaerror:new({
 That means if you provide anything that is not a table as a parameter definition, that will be the value which replaces the placeholder.
 If you provide a table, the `value` must be named explicitly, but that also gives you the opportunity to add a `description`.
 
+#### Asking Users to Report an Internal Server Error
+
+If you program defensively, you will also handle error cases which in theory should never happen. "In theory" means that they are impossible as long as the implementation is error-free. It is good programming practice, to prepare for the case when the "cannot happen" assumption is wrong.
+
+Since we are talking about internal errors, that the users have no real chance of fixing, reporting the error to the project is the best available option.
+
+Use the following convenience method of the error object builder to cover those situations.
+
+```lua
+local msg = exaerror.create("F-PACK-45", "Validation of created archive failed. Checksums do not match.")
+    :add_ticket_mitigation()
+```
+
+This will add mitigation information to the error message prompting the user to report the problem.
+
+```
+Mitigations:
+
+* This is an internal software error. Please report it via the project's ticket tracker.
+```
+
 # Raising Errors
 
 Error objects are only useful if you can present them to the end users. `exaerror` supports different styles, which are again a matter of taste.

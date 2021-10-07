@@ -189,4 +189,15 @@ Mitigations:
     )
 end
 
+function test_exaerror.test_add_ticket_mitigation()
+    print(package.path)
+    local err = exaerror.create("F-REQ-1", "Unsupported request type detected.")
+        :add_ticket_mitigation()
+    luaunit.assertEquals(tostring(err), [[F-REQ-1: Unsupported request type detected.
+
+Mitigations:
+
+* This is an internal software error. Please report it via the project's ticket tracker.]])
+end
+
 os.exit(luaunit.LuaUnit.run())
