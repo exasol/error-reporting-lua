@@ -104,14 +104,14 @@ end
 -- Add issue ticket mitigation
 -- <p>
 -- This is a special kind of mitigation which you should use in case of internal software errors that should not happen.
--- For example when a path in the code is reached that should unreachable if the code is correct.
+-- For example when a path in the code is reached that should be unreachable if the code is correct.
 -- </p>
 --
 -- @return error message object
 --
 function M:add_ticket_mitigation()
     table.insert(self.mitigations,
-    "This is an internal software error. Please report it via the project's ticket tracker.")
+        "This is an internal software error. Please report it via the project's ticket tracker.")
     return self
 end
 
