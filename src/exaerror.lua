@@ -4,7 +4,7 @@
 -- @module M
 --
 local M = {
-    VERSION = "1.1.0",
+    VERSION = "1.2.0",
 }
 
 local msgexpander = require("message_expander")
