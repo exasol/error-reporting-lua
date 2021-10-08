@@ -24,7 +24,7 @@ print(errobj)
 Raise a corresponding Lua error
 
 ```lua
-errobj.raise()
+errobj:raise()
 ```
 
 Or shorter:
