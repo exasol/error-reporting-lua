@@ -1,4 +1,4 @@
-# error-reporting-lua 1.1.0, released 2021-10-07
+# error-reporting-lua 1.1.0, released 2021-10-08
 
 Code name: Ticket mitigation
 
