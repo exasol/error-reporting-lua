@@ -199,4 +199,24 @@ Mitigations:
 * This is an internal software error. Please report it via the project's ticket tracker.]])
 end
 
+local function nest_raise_call(level)
+    exaerror.create("E-1", "Test stack trace levels"):raise(level)
+end
+
+function test_exaerror.test_raise_with_stack_trace_disabled_by_setting_level_0()
+    luaunit.assertErrorMsgEquals("E-1: Test stack trace levels", nest_raise_call, 0)
+end
+
+function test_exaerror.test_raise_with_stack_trace_level_1()
+    luaunit.assertErrorMsgMatches(".*/exaerror%.lua:[0-9]+: E%-1: Test stack trace levels", nest_raise_call, 1)
+end
+
+function test_exaerror.test_raise_with_stack_trace_level_2()
+    luaunit.assertErrorMsgMatches(".*/test_exaerror%.lua:[0-9]+: E%-1: Test stack trace levels", nest_raise_call, 2)
+end
+
+function test_exaerror.test_raise_uses_default_stack_trace_level_2()
+    luaunit.assertErrorMsgMatches(".*/test_exaerror%.lua:[0-9]+: E%-1: Test stack trace levels", nest_raise_call)
+end
+
 os.exit(luaunit.LuaUnit.run())

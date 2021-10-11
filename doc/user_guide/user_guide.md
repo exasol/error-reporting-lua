@@ -145,6 +145,12 @@ errorobj:raise()
 
 Mind the colon!
 
+The `raise` method has one optional integer parameter `level` that defines what location information is added to the error message. This acts exactly like the built-in `error` function. The `level` defines from which point in the stack trace the location information is taken.
+
+A level of 1 means that the location is where the Lua error is raised. That is _inside_ the `exaerror` module. Because that is typically not what users want, the default value is 2, meaning that you get location information from the function calling `raise`.
+
+If you set the level to 0, Lua adds no location information to the error message. This is a good choice for errors that you plan to display directly to end users.
+
 ## Creating an Raising an Error in one Step
 
 The shortest variant to create and raise an error in one call is using `exaerror.error`.
