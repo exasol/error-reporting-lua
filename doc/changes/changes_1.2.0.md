@@ -1,4 +1,4 @@
-# error-reporting-lua 1.2.0, released 2021-10-11
+# error-reporting-lua 1.2.0, released 2021-10-12
 
 Code name: Stack trace control
 
