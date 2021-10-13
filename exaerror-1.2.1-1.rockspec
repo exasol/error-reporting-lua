@@ -1,9 +1,9 @@
 package = "exaerror"
-version = "1.2.0-1"
+version = "1.2.1-1"
 
 source = {
     url = 'git://github.com/exasol/error-reporting-lua',
-    tag = "1.2.0"
+    tag = "1.2.1"
 }
 
 description = {
