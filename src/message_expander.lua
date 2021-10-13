@@ -95,12 +95,13 @@ local function is_closing_bracket(token)
     return token == "}"
 end
 
+-- We are intentionally not using the symbol itself here for compatibility reasons.
+-- See https://github.com/exasol/error-reporting-lua/issues/15 for details.
 local function is_pipe(token)
-
-    return token == "|"
+    return token == string.char(124)
 end
 
-local function is_u (token)
+local function is_u(token)
     return token == "u"
 end
 
