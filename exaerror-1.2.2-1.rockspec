@@ -27,7 +27,11 @@ description = {
 
 dependencies = {"lua >= 5.1, < 5.5"}
 
-build_dependencies = {"luaunit >= 3.4-1", "luacov >= 0.15.0-1"}
+build_dependencies = {
+    "luaunit >= 3.4-1",
+    "luacov >= 0.15.0-1",
+    "luacheck >= 0.25.0-1"
+}
 
 build = {
     type = "builtin",
