@@ -1,9 +1,10 @@
+rockspec_format = "3.0"
 package = "exaerror"
-version = "1.2.1-1"
+version = "1.2.2-1"
 
 source = {
     url = 'git://github.com/exasol/error-reporting-lua',
-    tag = "1.2.1"
+    tag = "1.2.2"
 }
 
 description = {
@@ -24,13 +25,9 @@ description = {
     maintainer = 'Exasol <opensource@exasol.com>'
 }
 
-dependencies = {"lua >= 5.1, < 5.4"}
+dependencies = {"lua >= 5.1, < 5.5"}
 
--- With support for LuaRocks 3 we will enable the following configuration option. Right now LuaRocks 2 is still the
--- current version on Ubuntu, so it is too early for this.
---
--- rockspec_format = "3.0"
--- build_dependencies = {"luaunit >= 3.3-1"}
+build_dependencies = {"luaunit >= 3.3-1"}
 
 build = {
     type = "builtin",
