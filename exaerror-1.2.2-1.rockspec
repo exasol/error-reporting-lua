@@ -1,13 +1,15 @@
+rockspec_format = "3.0"
 package = "exaerror"
-version = "1.2.1-1"
+version = "1.2.2-1"
 
 source = {
     url = 'git://github.com/exasol/error-reporting-lua',
-    tag = "1.2.1"
+    tag = "1.2.2"
 }
 
 description = {
     summary = "Uniform error objects for Lua",
+    labels = {"error-reporting", "builder"},
     detailed = [["exaerror" lets you define errors with a uniform set of attributes. The created error objects can be used in places where strings are expected like in string concatenation.
 
     And you can conveniently raise a Lua `error` from them.
@@ -20,17 +22,18 @@ description = {
     
     - User guide: https://github.com/exasol/error-reporting-lua/blob/master/doc/user_guide/user_guide.md]],
     homepage = "https://github.com/exasol/error-reporting-lua",
+    issues_url = "https://github.com/exasol/error-reporting-lua/issues",
     license = "MIT",
     maintainer = 'Exasol <opensource@exasol.com>'
 }
 
-dependencies = {"lua >= 5.1, < 5.4"}
+dependencies = {"lua >= 5.1, < 5.5"}
 
--- With support for LuaRocks 3 we will enable the following configuration option. Right now LuaRocks 2 is still the
--- current version on Ubuntu, so it is too early for this.
---
--- rockspec_format = "3.0"
--- build_dependencies = {"luaunit >= 3.3-1"}
+build_dependencies = {
+    "luaunit >= 3.4-1",
+    "luacov >= 0.15.0-1",
+    "luacheck >= 0.25.0-1"
+}
 
 build = {
     type = "builtin",
