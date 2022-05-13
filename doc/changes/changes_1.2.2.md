@@ -8,7 +8,7 @@ Release 1.2.2 of `error-reporting-lua` adds support for Lua 5.4.
 
 ## Feature
 
-* #75: Added support for Lua 5.4
+* #17: Added support for Lua 5.4
 
 ## Dependency Updates
 

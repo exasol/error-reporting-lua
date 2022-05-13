@@ -147,6 +147,8 @@ local function replace_parameter(self)
         table.insert(self.tokens_, "'")
         table.insert(self.tokens_, value)
         table.insert(self.tokens_, "'")
+    elseif type == "boolean" then
+        table.insert(self.tokens_, tostring(value))
     else
         table.insert(self.tokens_, value)
     end
