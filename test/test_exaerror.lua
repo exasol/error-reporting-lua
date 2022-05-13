@@ -26,6 +26,31 @@ function test_exaerror.test_get_interpolated_message_with_string_and_number()
     luaunit.assertEquals(msg:get_message(), "The 'answer' is \"42\".")
 end
 
+function test_exaerror.test_get_interpolated_message_with_boolean()
+    local msg = exaerror.create("W-BARZOO-2", 'The result is {{bool}}.', {bool=true})
+    luaunit.assertEquals(msg:get_message(), "The result is true.")
+end
+
+function test_exaerror.test_get_interpolated_message_with_nil()
+    local msg = exaerror.create("W-BARZOO-2", 'The result is {{value}}.', {value=nil})
+    luaunit.assertEquals(msg:get_message(), "The result is {{value}}.")
+end
+
+function test_exaerror.test_get_interpolated_message_with_float()
+    local msg = exaerror.create("W-BARZOO-2", 'The value of pi is {{pi}}.', {pi=3.14})
+    luaunit.assertEquals(msg:get_message(), "The value of pi is 3.14.")
+end
+
+function test_exaerror.test_get_interpolated_message_with_value_in_table()
+    local msg = exaerror.create("W-BARZOO-2", 'The result is {{table}}.', {table={value="value"}})
+    luaunit.assertEquals(msg:get_message(), "The result is 'value'.")
+end
+
+function test_exaerror.test_get_interpolated_message_with_table()
+    local msg = exaerror.create("W-BARZOO-2", 'The result is {{table}}.', {table={a=1}})
+    luaunit.assertEquals(msg:get_message(), "The result is .")
+end
+
 function test_exaerror.test_get_parameter_description()
     local msg = exaerror:new({
         code = "E-A-1",

@@ -1,10 +1,10 @@
 rockspec_format = "3.0"
 package = "exaerror"
-version = "1.2.2-1"
+version = "1.2.3-1"
 
 source = {
     url = 'git://github.com/exasol/error-reporting-lua',
-    tag = "1.2.2"
+    tag = "1.2.3"
 }
 
 description = {

@@ -21,6 +21,26 @@ function test_message_expander.test_expand_autoquoted_string()
         "before 'replaced-string' after")
 end
 
+function test_message_expander.test_expand_boolean_parameter()
+    assertMessageWithParametersRendersTo("before {{value}} after", {value = true},
+        "before true after")
+end
+
+function test_message_expander.test_expand_integer_parameter()
+    assertMessageWithParametersRendersTo("before {{value}} after", {value = 1234},
+        "before 1234 after")
+end
+
+function test_message_expander.test_expand_float_parameter()
+    assertMessageWithParametersRendersTo("before {{value}} after", {value = 3.14},
+        "before 3.14 after")
+end
+
+function test_message_expander.test_expand_table_parameter()
+    assertMessageWithParametersRendersTo("before {{value}} after", {value = {a=1}},
+        "before  after")
+end
+
 function test_message_expander.test_unquoted()
     assertMessageWithParametersRendersTo('The {{string|u}} is "{{number}}".', {string = "answer", number = 42},
         'The answer is "42".')
