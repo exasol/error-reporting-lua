@@ -30,5 +30,5 @@
 [shellcheck]: https://www.shellcheck.net/
 
 [gpl3]: https://www.gnu.org/licenses/gpl-3.0.en.html
-[mit]: https://opensource.org/licenses/MIT
+[mit]: https://mit-license.org/
 [bsd]: http://opensource.org/licenses/BSD-3-Clause
