@@ -4,9 +4,6 @@
 local MessageExpander = {}
 MessageExpander.__index = MessageExpander
 
--- Lua 5.1 backward compatibility
-table.pack = table.pack or _G.pack
-
 local FROM_STATE_INDEX = 1
 local GUARD_INDEX = 2
 local ACTION_INDEX = 3

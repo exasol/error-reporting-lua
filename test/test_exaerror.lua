@@ -189,9 +189,11 @@ Mitigations:
 * Try #1.
 * Or #2.]],
         function ()
-            exaerror.error("E-IO-13", "Need {{needed}} MiB space, but only {{remaining}} MiB left on device {{device}}.",
-                {needed = 500.2, remaining = 14.8, device = "/dev/sda4"},
-                {"Try #1.", "Or #2."}
+            exaerror.error(
+                    "E-IO-13",
+                    "Need {{needed}} MiB space, but only {{remaining}} MiB left on device {{device}}.",
+                    {needed = 500.2, remaining = 14.8, device = "/dev/sda4"},
+                    {"Try #1.", "Or #2."}
             )
         end
     )
