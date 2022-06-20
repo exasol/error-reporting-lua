@@ -1,77 +1,60 @@
----
--- This module provides a parser for messages with named parameters and can expand the message using the parameter
+--- This class provides a parser for messages with named parameters and can expand the message using the parameter
 -- values.
---
--- @module M
---
-local M = {}
+-- @classmod MessageExpander
+local MessageExpander = {}
+MessageExpander.__index = MessageExpander
+
+-- Lua 5.1 backward compatibility
+table.pack = table.pack or _G.pack
 
 local FROM_STATE_INDEX = 1
 local GUARD_INDEX = 2
 local ACTION_INDEX = 3
 local TO_STATE_INDEX = 4
 
----
--- Create a new instance of a message expander.
---
--- @param object pre-initialized object to be used for the instance
---        (optional) a new object is created if you don't provide one
---
--- @return created object
---
-function M:new(object)
-    object = object or {}
-    self.__index = self
-    setmetatable(object, self)
-    self.tokens_ = {}
-    self.last_parameter_ = {characters = {}, quote = true}
-    return object
+--- Create a new instance of a message expander.
+-- @parameter message to be expanded
+-- @parameter parameters parameter definitions
+-- @return message expander instance
+function MessageExpander:new(message, parameters)
+    local instance = setmetatable({}, self)
+    instance:_init(message, parameters)
+    return instance
 end
 
----
--- Create new instance of a message expander.
---
--- @parameter message to be expanded
--- @parameter ... values used to replace the placeholders
---
-function M.create(message, ...)
-    return M:new({
-        message = message,
-        parameters = {...},
-    })
+function MessageExpander:_init(message, parameters)
+    self._message = message
+    self._parameters = parameters
+    self._tokens = {}
+    self._last_parameter = {characters = {}, quote = true}
 end
 
 local function tokenize(text)
     return string.gmatch(text, ".")
 end
 
----
--- Expand the message.
--- <p>
+--- Expand the message.
 -- Note that if no parameter values are supplied, the message will be returned as is, without any replacements.
--- </p>
---
 -- @return expanded message
---
-function M:expand()
-    if (self.parameters == nil) or (not next(self.parameters)) then
-        return self.message
+function MessageExpander:expand()
+    if (self._parameters == nil) or (not next(self._parameters)) then
+        return self._message
     else
-        self:run_()
+        self:_run()
     end
-    return table.concat(self.tokens_)
+    return table.concat(self._tokens)
 end
 
-function M:run_()
+function MessageExpander:_run()
     self.state = "TEXT"
-    local token_iterator = tokenize(self.message)
+    local token_iterator = tokenize(self._message)
     for token in token_iterator do
-        self.state = self:transit_(token)
+        self.state = self:_transit(token)
     end
 end
 
-function M:transit_(token)
-    for _, transition in ipairs(M.transitions_) do
+function MessageExpander:_transit(token)
+    for _, transition in ipairs(MessageExpander._transitions) do
         local from_state = transition[FROM_STATE_INDEX]
         local guard = transition[GUARD_INDEX]
         if(from_state == self.state and guard(token)) then
@@ -110,20 +93,20 @@ local function is_not_bracket(token)
 end
 
 local function add_token(self, token)
-    table.insert(self.tokens_, token)
+    table.insert(self._tokens, token)
 end
 
 local function add_open_plus_token(self, token)
-    table.insert(self.tokens_, "{")
-    table.insert(self.tokens_, token)
+    table.insert(self._tokens, "{")
+    table.insert(self._tokens, token)
 end
 
 local function add_parameter_name(self, token)
-    table.insert(self.last_parameter_.characters, token)
+    table.insert(self._last_parameter.characters, token)
 end
 
 local function set_unquoted(self)
-    self.last_parameter_.quote = false
+    self._last_parameter.quote = false
 end
 
 local function unwrap_parameter_value(parameter)
@@ -131,7 +114,7 @@ local function unwrap_parameter_value(parameter)
         return "missing value"
     else
         local type = type(parameter)
-        if (type == "table") then
+        if type == "table" then
             return parameter.value
         else
             return parameter
@@ -140,20 +123,20 @@ local function unwrap_parameter_value(parameter)
 end
 
 local function replace_parameter(self)
-    local parameter_name = table.concat(self.last_parameter_.characters)
-    local value = unwrap_parameter_value(self.parameters[parameter_name])
+    local parameter_name = table.concat(self._last_parameter.characters)
+    local value = unwrap_parameter_value(self._parameters[parameter_name])
     local type = type(value)
-    if (type == "string") and (self.last_parameter_.quote) then
-        table.insert(self.tokens_, "'")
-        table.insert(self.tokens_, value)
-        table.insert(self.tokens_, "'")
+    if (type == "string") and (self._last_parameter.quote) then
+        table.insert(self._tokens, "'")
+        table.insert(self._tokens, value)
+        table.insert(self._tokens, "'")
     elseif type == "boolean" then
-        table.insert(self.tokens_, tostring(value))
+        table.insert(self._tokens, tostring(value))
     else
-        table.insert(self.tokens_, value)
+        table.insert(self._tokens, value)
     end
-    self.last_parameter_.characters = {}
-    self.last_parameter_.quote = true
+    self._last_parameter.characters = {}
+    self._last_parameter.quote = true
 end
 
 local function replace_and_add(self, token)
@@ -163,7 +146,7 @@ end
 
 local function do_nothing() end
 
-M.transitions_ = {
+MessageExpander._transitions = {
     {"TEXT"     , is_not_bracket    , add_token          , "TEXT"     },
     {"TEXT"     , is_opening_bracket, do_nothing         , "OPEN_1"   },
     {"OPEN_1"   , is_opening_bracket, do_nothing         , "PARAMETER"},
@@ -178,4 +161,4 @@ M.transitions_ = {
     {"CLOSE_1"  , is_any            , replace_and_add    , "TEXT"     }
 }
 
-return M
+return MessageExpander

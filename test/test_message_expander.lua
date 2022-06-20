@@ -1,5 +1,7 @@
+package.path = "src/?.lua;" .. package.path
+
 local luaunit = require("luaunit")
-local msgexpander = require("message_expander")
+local MessageExpander = require("MessageExpander")
 
 -- Lua 5.1 backward compatibility
 _G.unpack = table.unpack or _G.unpack
@@ -7,7 +9,7 @@ _G.unpack = table.unpack or _G.unpack
 test_message_expander = {}
 
 local function assertMessageWithParametersRendersTo(message, parameters, expected)
-    local expander = msgexpander:new({message = message, parameters = parameters})
+    local expander = MessageExpander:new(message, parameters)
     luaunit.assertEquals(expander:expand(), expected)
 end
 

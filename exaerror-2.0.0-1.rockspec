@@ -1,10 +1,11 @@
 rockspec_format = "3.0"
 package = "exaerror"
-version = "1.2.3-1"
+tag = "2.0.0"
+version = tag .. "-1"
 
 source = {
     url = 'git://github.com/exasol/error-reporting-lua',
-    tag = "1.2.3"
+    tag = tag
 }
 
 description = {
@@ -38,8 +39,8 @@ build_dependencies = {
 build = {
     type = "builtin",
     modules = {
-        exaerror = "src/exaerror.lua",
-        message_expander = "src/message_expander.lua"
+        exaerror = "src/ExaError.lua",
+        message_expander = "src/MessageExpander.lua"
     },
     copy_directories = { "doc", "test" }
 }
