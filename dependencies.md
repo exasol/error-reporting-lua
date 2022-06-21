@@ -9,12 +9,12 @@
 
 ## Test Dependencies
 
-| Dependency                                            | License                         |
-| ----------------------------------------------------- | ------------------------------- |
-| [LuaUnit][luaunit]                                    | [BSD License 3][bsd]            |
-| [LuaCheck][luacheck]                                  | [MIT][mit]                      |
-| [LuaCov][luacov]                                      | [MIT][mit]                      |
-| [Shellcheck][shellcheck]                              | [GPL V3][gpl3]                  |
+| Dependency                                            | License        |
+| ----------------------------------------------------- |----------------|
+| [LuaUnit][luaunit]                                    | BSD License 3  |
+| [LuaCheck][luacheck]                                  | [MIT][mit]     |
+| [LuaCov][luacov]                                      | [MIT][mit]     |
+| [Shellcheck][shellcheck]                              | [GPL V3][gpl3] |
 
 ## Build Dependencies
 
@@ -30,5 +30,4 @@
 [shellcheck]: https://www.shellcheck.net/
 
 [gpl3]: https://www.gnu.org/licenses/gpl-3.0.en.html
-[mit]: https://opensource.org/licenses/MIT
-[bsd]: http://opensource.org/licenses/BSD-3-Clause
+[mit]: https://mit-license.org/

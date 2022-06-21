@@ -1,17 +1,19 @@
 # Error Reporting Lua
 
-This project contains the source code for the `exaerror` Lua module. This modules lets you define errors with a uniform set of attributes. The created error objects can be used in places where strings are expected like in string concatenation.
+This project contains the source code for the `ExaError` Lua module. This module lets you define errors with a uniform set of attributes. The created error objects can be used in places where strings are expected like in string concatenation.
 
-And you can conveniently rais a Lua `error` from them.
+And you can conveniently raise a Lua `error` from them.
 
-Additionally the resulting code is made to be parseable, so that you can extract an error catalog from the code.
+Additionally, the resulting code is made to be parseable, so that you can extract an error catalog from the code.
 
 ## In a Nutshell
 
 Define an error object:
 
 ```lua
-local errobj = exaerror.create("E-IO-13", "Need {{needed}} MiB space, but only {{remaining}} MiB left on device {{device}}.",
+local ExaError = require("ExaError")
+
+local errobj = ExaError:new("E-IO-13", "Need {{needed}} MiB space, but only {{remaining}} MiB left on device {{device}}.",
     {needed = 500.2, remaining = 14.8, device = "/dev/sda4"})
 ```
 
@@ -30,7 +32,7 @@ errobj:raise()
 Or shorter:
 
 ```lua
-exaerror.error("E-IO-13", "Need {{needed}} MiB space, but only {{remaining}} MiB left on device {{device}}.",
+ExaError.error("E-IO-13", "Need {{needed}} MiB space, but only {{remaining}} MiB left on device {{device}}.",
     {needed = 500.2, remaining = 14.8, device = "/dev/sda4"})
 ```
 
