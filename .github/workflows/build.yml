@@ -33,21 +33,21 @@ jobs:
       - name: Install Lua dependencies
         run: |
           luarocks make --local
-          - name: Run tests
-            run: |
-              luarocks test --local
-          - name: Run static code analysis
-            # Ignore:
-            # - 212: unused argument self
-            run: |
-              luacheck src --codes --ignore 212
-          - name: Create report
-            run: |
-              luacov -c .coverage_config.lua luacov.stats.out
-              mkdir -p target/luacov-reports
-              mv luacov.*.out target/luacov-reports/
-          - name: Archive code coverage results
-            uses: actions/upload-artifact@v2
-            with:
-              name: luacov-report
-              path: target/luacov-reports/*
+      - name: Run tests
+        run: |
+          luarocks test --local
+      - name: Run static code analysis
+        # Ignore:
+        # - 212: unused argument self
+        run: |
+          luacheck src --codes --ignore 212
+      - name: Create report
+        run: |
+          luacov -c .coverage_config.lua luacov.stats.out
+          mkdir -p target/luacov-reports
+          mv luacov.*.out target/luacov-reports/
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@v2
+        with:
+          name: luacov-report
+          path: target/luacov-reports/*
