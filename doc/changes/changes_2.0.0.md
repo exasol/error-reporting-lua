@@ -17,7 +17,7 @@ Of course, we updated the [user guide](../user_guide/user_guide.md) accordingly.
 ### How to Migrate Your Code
 
 1. Replace `exaerror` by `ExaError` as module and class name
-2. If you used the message expander directly (which is usually not necessary), replace `message_expander` by `Message_Expander`
+2. If you used the message expander directly (which is usually not necessary), replace `message_expander` by `MessageExpander`
 3. Replace calls to `create` with `new`, keeping the parameter signature
 4. If you have pre-initialized object-style `new` calls, replace the table with the attributes `code`, `message`, `parameters` and `mitigations` by a flat list of the values. Mind the parameter order!
 5. Note that `new` now accepts mitigations as optional fourth parameter.
