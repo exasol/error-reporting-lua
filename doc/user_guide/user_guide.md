@@ -42,7 +42,7 @@ ExaError:new(code, message, parameters, mitigations)
 With the following parameters:
 
 * `code`: machine-readable unique code (string)
-* `message`: Error description either as static string or containing placeholders in double curly brackets.
+* `message`: Error description either as static string or containing placeholders in double curly brackets
 * `parameters`: table of parameter values be used to replace placeholders in the message and mitigations
 * `mitigations`: list of hints on how to fix the error (array of strings), optionally containing placeholders
 
@@ -82,7 +82,7 @@ You can use the same parameter replacement mechanism in mitigations that you saw
 ```lua
 local project_issue_url = "www.example.org/issues"
 -- ...
-local msg = ExaError:new(
+local errobj = ExaError:new(
         "Unexpected error.",
         {"Please create an error report under {{url}}."},
         {url = project_issue_url}
@@ -92,7 +92,7 @@ local msg = ExaError:new(
 If you want to add a description to your parameters, you need to invest just a bit more effort:
 
 ```lua
-local msg = ExaError:new(
+local errobj = ExaError:new(
     "Unexpected error.",
     {"Please create an error report under {{url}}."},
     {url = {value = project_issue_url, description = "URL under which you can raise issue tickets"}}
@@ -111,7 +111,7 @@ Since we are talking about internal errors, that the users have no real chance o
 Use the following convenience method of the error object builder to cover those situations.
 
 ```lua
-local msg = ExaError.create("F-PACK-45", "Validation of created archive failed. Checksums do not match.")
+local errobj = ExaError.create("F-PACK-45", "Validation of created archive failed. Checksums do not match.")
     :add_ticket_mitigation()
 ```
 

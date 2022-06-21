@@ -1,5 +1,5 @@
 --- This class provides a uniform way to define errors in a Lua application.
--- @module ExaError
+-- @classmod ExaError
 local ExaError = {
     VERSION = "2.0.0",
 }
@@ -94,7 +94,6 @@ function ExaError:get_code()
 end
 
 --- Get the error message.
--- This method supports Lua's standard string interpolation used in `string.format`.
 -- Placeholders in the raw message are replaced by the parameters given when building the error message object.
 -- For fault tolerance, this method returns the raw message in case the parameters are missing.
 -- @return error message
@@ -113,7 +112,7 @@ function ExaError:get_parameters()
 end
 
 --- Get the description of a parameter.
--- @parameter parameter_name name of the parameter
+-- @param parameter_name name of the parameter
 -- @return parameter description or the string "`<missing parameter description>`"
 function ExaError:get_parameter_description(parameter_name)
     return self._parameters[parameter_name].description or "<missing parameter description>"
@@ -134,7 +133,7 @@ end
 -- <li>2: stack trace starts at the calling function (default)</li>
 -- <li>3+: stack trace starts below the calling function</li>
 -- </ul>
--- @parameter level (optional) level from which down the stack trace will be displayed
+-- @param level (optional) level from which down the stack trace will be displayed
 -- @raise Lua error for the given error object
 function ExaError:raise(level)
     level = (level == nil) and 2 or level

@@ -10,8 +10,8 @@ local ACTION_INDEX = 3
 local TO_STATE_INDEX = 4
 
 --- Create a new instance of a message expander.
--- @parameter message to be expanded
--- @parameter parameters parameter definitions
+-- @param message to be expanded
+-- @param parameters parameter definitions
 -- @return message expander instance
 function MessageExpander:new(message, parameters)
     local instance = setmetatable({}, self)
