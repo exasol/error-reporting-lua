@@ -24,7 +24,7 @@ jobs:
       - name: Install LuaRocks
         uses: leafo/gh-actions-luarocks@v4
         with:
-          luarocksVersion: "3.8.0"
+          luarocksVersion: "3.9.0"
       - name: Print versions
         run: |
           lua -v
@@ -41,7 +41,7 @@ jobs:
           luarocks make --local
       - name: "Unit test"
         run: |
-          tools/runtests
+          luarocks --local test
       - name: Archive code coverage results
         uses: actions/upload-artifact@v2
         with:

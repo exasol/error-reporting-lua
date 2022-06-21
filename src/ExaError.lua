@@ -8,7 +8,7 @@ ExaError.__index = ExaError
 local MessageExpander = require("MessageExpander")
 
 -- Lua 5.1 backward compatibility
-_G.unpack = table.unpack or _G.unpack
+table.unpack = table.unpack or _G.unpack
 
 local function expand(message, parameters)
     return MessageExpander:new(message, parameters):expand()
@@ -121,7 +121,7 @@ end
 --- Get the mitigations for the error.
 -- @return list of mitigations
 function ExaError:get_mitigations()
-    return unpack(self._mitigations)
+    return table.unpack(self._mitigations)
 end
 
 --- Raise the error.

@@ -9,12 +9,12 @@
 
 ## Test Dependencies
 
-| Dependency                                            | License        |
-| ----------------------------------------------------- |----------------|
-| [LuaUnit][luaunit]                                    | BSD License 3  |
-| [LuaCheck][luacheck]                                  | [MIT][mit]     |
-| [LuaCov][luacov]                                      | [MIT][mit]     |
-| [Shellcheck][shellcheck]                              | [GPL V3][gpl3] |
+| Dependency               | License        |
+|--------------------------|----------------|
+| [Busted][busted]         | [MIT][mit]     |
+| [LuaCheck][luacheck]     | [MIT][mit]     |
+| [LuaCov][luacov]         | [MIT][mit]     |
+| [Shellcheck][shellcheck] | [GPL V3][gpl3] |
 
 ## Build Dependencies
 
@@ -22,6 +22,7 @@
 | ----------------------------------------------------- | ------------------------------- |
 | [LuaRocks][luarocks]                                  | [MIT][mit]                      |
 
+[busted]: http://olivinelabs.com/busted/
 [lua]: https://www.lua.org/
 [luacheck]: https://github.com/mpeterv/luacheck
 [luacov]: https://keplerproject.github.io/luacov/
