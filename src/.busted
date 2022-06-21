@@ -1,0 +1,15 @@
+return {
+  _all = {
+    coverage = true,
+    shuffle = true,
+    lpath = "./src/?.lua;./spec/?.lua"
+  },
+  default = {
+    verbose = true
+  },
+  utest = {
+    tags = "utest",
+    ROOT = {"spec"},
+    verbose = true
+  },
+}
