@@ -42,7 +42,7 @@ build = {
         exaerror = "src/ExaError.lua",
         message_expander = "src/MessageExpander.lua"
     },
-    copy_directories = { "doc", "test" }
+    copy_directories = { "doc" }
 }
 
 test = {
