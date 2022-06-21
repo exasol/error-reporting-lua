@@ -8,7 +8,9 @@ ExaError.__index = ExaError
 local MessageExpander = require("MessageExpander")
 
 -- Lua 5.1 backward compatibility
-table.unpack = table.unpack or _G.unpack
+-- luacheck: push ignore 122
+if not table.unpack then table.unpack = _G.unpack end
+-- luacheck: pop
 
 local function expand(message, parameters)
     return MessageExpander:new(message, parameters):expand()

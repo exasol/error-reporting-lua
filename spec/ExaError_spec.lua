@@ -3,9 +3,6 @@ package.path = "src/?.lua;" .. package.path
 require("busted.runner")()
 local ExaError = require("ExaError")
 
--- Lua 5.1 backward compatibility
-_G.unpack = table.unpack or _G.unpack
-
 describe("ExaError", function() 
     it("provides the error code", function() 
         local msg = ExaError:new("E-FOOBAR-1")

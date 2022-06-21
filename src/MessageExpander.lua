@@ -8,7 +8,6 @@ local FROM_STATE_INDEX = 1
 local GUARD_INDEX = 2
 local ACTION_INDEX = 3
 local TO_STATE_INDEX = 4
-local MISSING_VALUE = "<missing value>"
 
 --- Create a new instance of a message expander.
 -- @param message to be expanded
