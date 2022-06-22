@@ -11,20 +11,16 @@ jobs:
       group: ${{ github.workflow }}-${{ github.ref }}-lua-${{ matrix.lua_version }}
       cancel-in-progress: true
     name: "Build with Lua ${{ matrix.lua_version }}"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
         with:
            fetch-depth: 1
-      - name: Install Lua ${{ matrix.lua_version }}
-        uses: leafo/gh-actions-lua@v8.0.0
-        with:
-          luaVersion: ${{ matrix.lua_version }}
-      - name: Install LuaRocks
-        uses: leafo/gh-actions-luarocks@v4
-        with:
-          luarocksVersion: "3.9.0"
+      - name: "Install prerequisites"
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install lua${{ matrix.lua_version }} liblua${{ matrix.lua_version }} lua-any luarocks
       - name: Print versions
         run: |
           lua -v
@@ -40,10 +36,10 @@ jobs:
         # Ignore:
         # - 212: unused argument self
         run: |
-          luacheck src --codes --ignore 212
+          "$HOME"/.luarocks/bin/luacheck src --codes --ignore 212
       - name: Create report
         run: |
-          luacov -c .coverage_config.lua luacov.stats.out
+          "$HOME"/.luarocks/bin/luacov -c .coverage_config.lua luacov.stats.out
           mkdir -p target/luacov-reports
           mv luacov.*.out target/luacov-reports/
       - name: Archive code coverage results
