@@ -21,6 +21,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get -y install lua${{ matrix.lua_version }} liblua${{ matrix.lua_version }} lua-any luarocks
+          export luarocks_bin="$HOME/.luarocks/bin"
       - name: Print versions
         run: |
           lua -v
@@ -36,10 +37,10 @@ jobs:
         # Ignore:
         # - 212: unused argument self
         run: |
-          "$HOME"/.luarocks/bin/luacheck src --codes --ignore 212
+          "$luarocks_bin"/luacheck src --codes --ignore 212
       - name: Create report
         run: |
-          "$HOME"/.luarocks/bin/luacov -c .coverage_config.lua luacov.stats.out
+          "$luarocks_bin"/luacov -c .coverage_config.lua luacov.stats.out
           mkdir -p target/luacov-reports
           mv luacov.*.out target/luacov-reports/
       - name: Archive code coverage results
