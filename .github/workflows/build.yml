@@ -39,7 +39,7 @@ jobs:
           "$HOME"/.luarocks/bin/luacheck src --codes --ignore 212
       - name: Create report
         run: |
-          luacov -c .coverage_config.lua luacov.stats.out
+          "$HOME"/.luarocks/bin/luacov -c .coverage_config.lua luacov.stats.out
           mkdir -p target/luacov-reports
           mv luacov.*.out target/luacov-reports/
       - name: Archive code coverage results
