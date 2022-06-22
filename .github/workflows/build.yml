@@ -12,8 +12,6 @@ jobs:
       cancel-in-progress: true
     name: "Build with Lua ${{ matrix.lua_version }}"
     runs-on: ubuntu-22.04
-    env:
-      luarocks_bin: ${{ env.$HOME }}/.luarocks/bin"
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
@@ -23,6 +21,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get -y install lua${{ matrix.lua_version }} liblua${{ matrix.lua_version }} lua-any luarocks
+          export luarocks_bin="$HOME/.luarocks/bin"
       - name: Print versions
         run: |
           lua -v
