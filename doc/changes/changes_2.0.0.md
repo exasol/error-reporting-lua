@@ -26,6 +26,8 @@ or
 luarocks --local test
 ```
 
+We replaced the GitHub action for installing Lua with the standard `apt-get` solution, now that the GitHub Ubuntu runner 22.04 is available with Lua 5.4.
+
 ### How to Migrate Your Code
 
 1. Replace `exaerror` by `ExaError` as module and class name
