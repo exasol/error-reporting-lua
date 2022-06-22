@@ -28,10 +28,10 @@ jobs:
           luarocks path
       - name: Install Lua dependencies
         run: |
-          luarocks make --local
+          luarocks make
       - name: Run tests
         run: |
-          luarocks test --local
+          luarocks test
       - name: Run static code analysis
         # Ignore:
         # - 212: unused argument self
