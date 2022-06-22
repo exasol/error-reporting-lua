@@ -60,7 +60,7 @@ describe("ExaError", function()
         assert.are.equals(msg:get_parameter_description("c"), "the C")
     end)
 
-    it("reports if the parameter the user request the description for is missing", function()
+    it("reports if the parameter the user requested the description for is missing", function()
         local msg = ExaError:new("E-A-1", "A, {{b}}, {{c}}", {
                 b = {value = "B"},
                 c = {value = "C", description = "the C"}
@@ -226,7 +226,7 @@ Mitigations:
 
     it("uses the default stack trace report level of two", function()
         local err = ExaError:new("E-1: Test stack trace level 2")
-        -- The following two calls need to in in the SAME line to produce the same line number in the error message!
+        -- The following two calls need to be in the SAME line to produce the same line number in the error message!
         local ok_l2, res_l2 = pcall(function() err:raise(2) end); local ok, res = pcall(function() err:raise() end)
         assert.is_false(ok_l2)
         assert.is_false(ok)
