@@ -13,7 +13,7 @@ jobs:
     name: "Build with Lua ${{ matrix.lua_version }}"
     runs-on: ubuntu-22.04
     env:
-      luarocks_bin: ${{ env.$HOME }}/.luarocks/bin"
+      luarocks_bin: ${{ env.HOME }}/.luarocks/bin"
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
