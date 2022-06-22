@@ -24,26 +24,30 @@ jobs:
       - name: Install LuaRocks
         uses: leafo/gh-actions-luarocks@v4
         with:
-          luarocksVersion: "3.8.0"
+          luarocksVersion: "3.9.0"
       - name: Print versions
         run: |
           lua -v
           luarocks --version
           luarocks path
-      - name: "Install Lua dependencies"
-        run: |
-          luarocks install --local --deps-only *.rockspec
-      - name: "Validate tools"
-        run: |
-          shellcheck tools/runtests
-      - name: "Build"
+      - name: Install Lua dependencies
         run: |
           luarocks make --local
-      - name: "Unit test"
+      - name: Run tests
         run: |
-          tools/runtests
+          luarocks test --local
+      - name: Run static code analysis
+        # Ignore:
+        # - 212: unused argument self
+        run: |
+          luacheck src --codes --ignore 212
+      - name: Create report
+        run: |
+          luacov -c .coverage_config.lua luacov.stats.out
+          mkdir -p target/luacov-reports
+          mv luacov.*.out target/luacov-reports/
       - name: Archive code coverage results
         uses: actions/upload-artifact@v2
         with:
-          name: luacov.report.out
-          path: target/luacov-reports/luacov.report.out
+          name: luacov-report
+          path: target/luacov-reports/*

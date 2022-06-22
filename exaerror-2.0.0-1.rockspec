@@ -30,10 +30,10 @@ description = {
 
 dependencies = {"lua >= 5.1, < 5.5"}
 
-build_dependencies = {
-    "luaunit >= 3.4-1",
+test_dependencies = {
+    "busted >= 2.0.0-1",
     "luacov >= 0.15.0-1",
-    "luacheck >= 0.25.0-1"
+    "luacheck >= 0.26.1-1"
 }
 
 build = {
@@ -42,5 +42,9 @@ build = {
         exaerror = "src/ExaError.lua",
         message_expander = "src/MessageExpander.lua"
     },
-    copy_directories = { "doc", "test" }
+    copy_directories = { "doc" }
+}
+
+test = {
+    type = "busted"
 }

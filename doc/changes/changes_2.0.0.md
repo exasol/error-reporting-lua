@@ -14,6 +14,18 @@ To comply with our [style guide](https://github.com/exasol/lua-coding/blob/main/
 
 Of course, we updated the [user guide](../user_guide/user_guide.md) accordingly.
 
+We migrated the unit tests to the [`busted`](http://olivinelabs.com/busted/) framework. You can now run the tests with either:
+
+```bash
+busted
+```
+
+or
+
+```bash
+luarocks --local test
+```
+
 ### How to Migrate Your Code
 
 1. Replace `exaerror` by `ExaError` as module and class name

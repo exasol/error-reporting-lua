@@ -107,14 +107,26 @@ local function set_unquoted(self)
 end
 
 local function unwrap_parameter_value(parameter)
-    if parameter == nil then
-        return "missing value"
+    if parameter ~= nil and type(parameter) == "table" then
+        return parameter.value
     else
-        local type = type(parameter)
-        if type == "table" then
-            return parameter.value
+        return parameter
+    end
+end
+
+local function insert_parameter_value_into_token_list(self, value)
+    if value == nil then
+        table.insert(self._tokens, "<missing value>")
+    else
+        local type = type(value)
+        if (type == "string") and (self._last_parameter.quote) then
+            table.insert(self._tokens, "'")
+            table.insert(self._tokens, value)
+            table.insert(self._tokens, "'")
+        elseif type == "boolean" then
+            table.insert(self._tokens, tostring(value))
         else
-            return parameter
+            table.insert(self._tokens, value)
         end
     end
 end
@@ -122,16 +134,7 @@ end
 local function replace_parameter(self)
     local parameter_name = table.concat(self._last_parameter.characters)
     local value = unwrap_parameter_value(self._parameters[parameter_name])
-    local type = type(value)
-    if (type == "string") and (self._last_parameter.quote) then
-        table.insert(self._tokens, "'")
-        table.insert(self._tokens, value)
-        table.insert(self._tokens, "'")
-    elseif type == "boolean" then
-        table.insert(self._tokens, tostring(value))
-    else
-        table.insert(self._tokens, value)
-    end
+    insert_parameter_value_into_token_list(self, value)
     self._last_parameter.characters = {}
     self._last_parameter.quote = true
 end
