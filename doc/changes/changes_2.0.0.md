@@ -1,4 +1,4 @@
-# error-reporting-lua 2.0.0, released 2022-06-20
+# error-reporting-lua 2.0.0, released 2022-06-22
 
 Code name: Streamlined interface
 
