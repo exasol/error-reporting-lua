@@ -6,6 +6,20 @@ And you can conveniently raise a Lua `error` from them.
 
 Additionally, the resulting code is made to be parseable, so that you can extract an error catalog from the code.
 
+# Installing and Using the Module
+
+You can install the `exaerror` (all lowercase) package containing the necessary modules from [LuaRocks](https://luarocks.org):
+
+```bash
+luarocks --local install exaerror
+```
+
+This package contains a module `ExaError` that you will need to import in your source code:
+
+```lua
+local ExaError = require("ExaError")
+```
+
 # Defining Error Objects
 
 The core concept of the module is an error object defined in `Exaerror`. Each error object has a couple of predefined attributes:

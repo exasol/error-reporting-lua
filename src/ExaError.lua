@@ -1,7 +1,7 @@
 --- This class provides a uniform way to define errors in a Lua application.
 -- @classmod ExaError
 local ExaError = {
-    VERSION = "2.0.0",
+    VERSION = "2.0.1",
 }
 ExaError.__index = ExaError
 
