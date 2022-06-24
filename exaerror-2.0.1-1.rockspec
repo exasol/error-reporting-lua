@@ -1,6 +1,6 @@
 rockspec_format = "3.0"
 package = "exaerror"
-local tag = "2.0.0"
+local tag = "2.0.1"
 version = tag .. "-1"
 
 source = {
@@ -39,8 +39,8 @@ test_dependencies = {
 build = {
     type = "builtin",
     modules = {
-        exaerror = "src/ExaError.lua",
-        message_expander = "src/MessageExpander.lua"
+        ExaError = "src/ExaError.lua",
+        MessageExpander = "src/MessageExpander.lua"
     },
     copy_directories = { "doc" }
 }
