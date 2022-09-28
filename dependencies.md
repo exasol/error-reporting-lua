@@ -25,7 +25,7 @@
 [busted]: https://lunarmodules.github.io/busted/
 [lua]: https://www.lua.org/
 [luacheck]: https://github.com/mpeterv/luacheck
-[luacov]: https://keplerproject.github.io/luacov/
+[luacov]: https://lunarmodules.github.io/luacov/
 [luarocks]: https://luarocks.org/
 [luaunit]: https://github.com/bluebird75/luaunit
 [shellcheck]: https://www.shellcheck.net/
