@@ -22,7 +22,7 @@
 | ----------------------------------------------------- | ------------------------------- |
 | [LuaRocks][luarocks]                                  | [MIT][mit]                      |
 
-[busted]: http://olivinelabs.com/busted/
+[busted]: https://lunarmodules.github.io/busted/
 [lua]: https://www.lua.org/
 [luacheck]: https://github.com/mpeterv/luacheck
 [luacov]: https://keplerproject.github.io/luacov/

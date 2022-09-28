@@ -14,7 +14,7 @@ To comply with our [style guide](https://github.com/exasol/lua-coding/blob/main/
 
 Of course, we updated the [user guide](../user_guide/user_guide.md) accordingly.
 
-We migrated the unit tests to the [`busted`](http://olivinelabs.com/busted/) framework. You can now run the tests with either:
+We migrated the unit tests to the [`busted`](https://lunarmodules.github.io/busted/) framework. You can now run the tests with either:
 
 ```bash
 busted
