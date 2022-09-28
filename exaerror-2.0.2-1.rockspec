@@ -1,6 +1,6 @@
 rockspec_format = "3.0"
 package = "exaerror"
-local tag = "2.0.1"
+local tag = "2.0.2"
 version = tag .. "-1"
 
 source = {
