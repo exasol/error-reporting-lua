@@ -17,7 +17,7 @@ description = {
 
     Additionally the resulting code is made to be parsable, so that you can extract an error catalog from the code.
 
-    You can find the  user guide in the projects GitHub repository.
+    You can find the  user guide in the project's GitHub repository.
     
     Links:
     
