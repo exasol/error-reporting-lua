@@ -5,7 +5,12 @@ local MessageExpander = require("MessageExpander")
 
 local function assertMessageWithParametersRendersTo(message, parameters, expected)
     local expander = MessageExpander:new(message, parameters)
-    assert.are.equals(expander:expand(), expected)
+    assert.are.same(expander:expand(), expected)
+end
+
+local function assertMessageWithParametersRendersMatching(message, parameters, expected)
+    local expander = MessageExpander:new(message, parameters)
+    assert.matches(expected, expander:expand())
 end
 
 describe("MessageExpander", function()
@@ -68,5 +73,10 @@ describe("MessageExpander", function()
                 {day = {description = "current day"}},
                 "yesterday <missing value> tomorrow")
 
+    end)
+
+    it("expands a message with a table as parameter", function()
+        assertMessageWithParametersRendersMatching("The table {{table}} gets expanded.",
+                {table = {value = {a = 1, b = "text"}}}, "The table <table: 0x[a-f0-9]+> gets expanded.")
     end)
 end)
